@@ -23,8 +23,7 @@ void f() {
 			int n_x = dx[i] + c_x;
 			int n_y = dy[i] + c_y;
 			int n_z = dz[i] + c_z;
-			if (n_x > 0 && n_x <= M && n_y > 0 && n_y <= N && n_z > 0 && n_z <= H
-				 && arr[n_z][n_y][n_x] != -1) {
+			if (n_x > 0 && n_x <= M && n_y > 0 && n_y <= N && n_z > 0 && n_z <= H) {
 				if (arr[n_z][n_y][n_x] == 0) {
 					arr[n_z][n_y][n_x] = arr[c_z][c_y][c_x] + 1;
 					q_pp.push({ {n_x,n_y},n_z });
