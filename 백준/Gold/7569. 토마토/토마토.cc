@@ -34,6 +34,8 @@ void f() {
 	}
 }
 int main() {
+    cin.tie(0);
+    ios_base::sync_with_stdio(0);
 	cin >> M >> N >> H;
 	// N개의 줄
 	// 각 줄에는 상자 가로줄이 들어있는 토마토들의 상태
