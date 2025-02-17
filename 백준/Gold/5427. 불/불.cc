@@ -15,10 +15,10 @@ struct node {
 };
 
 int bfs(int endX, int endY, queue<node>& q_p, queue<node>& q_fire) {
-    while (!q_p.empty()) {
 
-        // 🔥 불 먼저 확산
+    while (!q_p.empty()) {
         int fire_size = q_fire.size();
+
         for (int i = 0; i < fire_size; i++) {
             int c_x = q_fire.front().x;
             int c_y = q_fire.front().y;
@@ -32,21 +32,19 @@ int bfs(int endX, int endY, queue<node>& q_p, queue<node>& q_fire) {
                 if (n_x > 0 && n_x <= endX && n_y > 0 && n_y <= endY) {
                     if (arr[n_y][n_x] != '#' && arr[n_y][n_x] != '*') {
                         arr[n_y][n_x] = '*';
-                        q_fire.push({ n_x, n_y, Count + 1 });
+                        q_fire.push({ n_x, n_y, 0  });
                     }
                 }
             }
         }
+        int p_size = q_p.size();
 
-        // 🚶‍♂️ 사람 이동
-        int person_size = q_p.size();
-        for (int i = 0; i < person_size; i++) {
+        for (int i = 0; i < p_size; i++) {
             int c_x = q_p.front().x;
             int c_y = q_p.front().y;
             int Count = q_p.front().Count;
             q_p.pop();
 
-            // 사람이 건물 밖(가장자리)에 도달하면 탈출 성공
             if (c_x == 1 || c_x == endX || c_y == 1 || c_y == endY) {
                 return Count;
             }
@@ -56,8 +54,7 @@ int bfs(int endX, int endY, queue<node>& q_p, queue<node>& q_fire) {
                 int n_y = c_y + dy[j];
 
                 if (n_x > 0 && n_x <= endX && n_y > 0 && n_y <= endY) {
-                    // 🚫 사람이 이동할 곳이 '#' (벽) 이거나 '*' (불) 이면 이동 불가
-                    if (!visited[n_y][n_x] && arr[n_y][n_x] == '.') {
+                    if (!visited[n_y][n_x] && arr[n_y][n_x] =='.') {
                         visited[n_y][n_x] = true;
                         q_p.push({ n_x, n_y, Count + 1 });
                     }
@@ -65,7 +62,7 @@ int bfs(int endX, int endY, queue<node>& q_p, queue<node>& q_fire) {
             }
         }
     }
-    return -1; // 탈출 실패
+    return -1;
 }
 
 void input() {
@@ -87,8 +84,9 @@ void input() {
                 if (arr[h][w] == '@') {
                     q_p.push({ w, h, 1 });
                     visited[h][w] = true;
-                } else if (arr[h][w] == '*') {
-                    q_fire.push({ w, h, 1 });
+                }
+                else if (arr[h][w] == '*') {
+                    q_fire.push({ w, h, 0 });
                 }
             }
         }
