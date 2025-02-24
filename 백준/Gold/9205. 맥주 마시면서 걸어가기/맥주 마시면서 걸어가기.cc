@@ -10,7 +10,7 @@ struct node {
 void bfs(const vector<node> & v_node) {
 	int v_size = v_node.size();
 	queue<node>q_node;
-	bool visited[101] = {false,};
+	bool visited[100] = {false,};
 
 	visited[0] = true;
 	q_node.push({ v_node[0].x,v_node[0].y});
