@@ -18,7 +18,7 @@ int dp(int F_S, int s) {
 }
 void input() {
 	cin >> T;
-	for (int i = 0; i < T; i++) {
+	while (T--) {
 		cin >> n;
 		memset(arr, 0, sizeof(arr));
 		memset(visited, -1, sizeof(visited));
