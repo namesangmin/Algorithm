@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-
+#include <sstream>
 using namespace std;
 int A, B, fp = 0, sp = 0;
 vector<int> arr_A;
@@ -34,10 +34,11 @@ void func() {
 		arr_result.push_back(arr_A[fp++]);
 	while (sp < B)
 		arr_result.push_back(arr_B[sp++]);
-
-	for (auto a : arr_result) {
-		cout << a << " ";
-	}
+    ostringstream out;
+    for (int a : arr_result)
+	    out << a << " ";
+    cout << out.str();
+	
 }
 int main() {
 	ios_base::sync_with_stdio(0);
