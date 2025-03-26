@@ -21,9 +21,7 @@ bool c(const vector<int>& a, const vector<int>& b) {
 	return a < b;
 }
 priority_queue<p, vector<p>, compare> pq_p;
-
 priority_queue<p, vector<p>, compare2> pq_check;
-
 vector<int> v;
 
 void input() {
@@ -48,8 +46,6 @@ void func() {
 		while (!pq_p.empty()) {
 			weight = pq_p.top().first;
 			value = pq_p.top().second;
-			//cout << "a : " << a <<  " weight : " << weight << " value : " << value << "\n";
-
 			if (a >= weight) {
 				pq_check.push({ weight,value });
 				pq_p.pop();
@@ -57,15 +53,10 @@ void func() {
 			else
 				break;
 		}
-		//cout << "re input : " << " weight : " << weight << " value : " << value << "\n";
-		//pq_p.push({ weight,value });
 		if (!pq_check.empty()) {
-			//cout << " value : " << pq_check.top().second << "\n";
 			result += pq_check.top().second;
 			pq_check.pop();
-
 		}
-
 	}
 	cout << result << "\n";
 }
