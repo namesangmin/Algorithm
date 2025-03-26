@@ -5,47 +5,70 @@
 using namespace std;
 
 int N, K;
+int bag[300001];
 typedef pair<int, int> p;
-priority_queue<p, vector<p>, greater<p>> pq_p; 
-priority_queue<int> pq; 
-vector<p> v;
+struct compare {
+	bool operator()(const p& a, const p& b) {
+		return a.first > b.first;
+	}
+};
+struct compare2 {
+	bool operator()(const p& a, const p& b) {
+		return a.second < b.second;
+	}
+};
+bool c(const vector<int>& a, const vector<int>& b) {
+	return a < b;
+}
+priority_queue<p, vector<p>, compare> pq_p;
+
+priority_queue<p, vector<p>, compare2> pq_check;
+
+vector<int> v;
 
 void input() {
 	cin >> N >> K;
 	for (int i = 0; i < N; i++) {
-		int w, c;
-		cin >> w >> c;
-		v.push_back({ w, c });
+		int f_tm, s_tm;
+		cin >> f_tm >> s_tm;
+		pq_p.push({ f_tm, s_tm });
 	}
-	for (int i = 0; i < K; i++) {
-		int w;
-		cin >> w;
-		pq_p.push({ w, 0 }); 
+	for (int i = 1; i <= K; i++) {
+		int tm;
+		cin >> tm;
+		v.push_back(tm);
 	}
 }
-
 void func() {
-	long long result = 0;
-	int idx = 0;
-
+	long result = 0;
+	int weight;
+	int value;
 	sort(v.begin(), v.end());
+	for (auto a : v) {
+		while (!pq_p.empty()) {
+			weight = pq_p.top().first;
+			value = pq_p.top().second;
+			//cout << "a : " << a <<  " weight : " << weight << " value : " << value << "\n";
 
-	while (!pq_p.empty()) {
-		int now_cap = pq_p.top().first;
-		pq_p.pop();
+			if (a >= weight) {
+				pq_check.push({ weight,value });
+				pq_p.pop();
+			}
+			else
+				break;
+		}
+		//cout << "re input : " << " weight : " << weight << " value : " << value << "\n";
+		//pq_p.push({ weight,value });
+		if (!pq_check.empty()) {
+			//cout << " value : " << pq_check.top().second << "\n";
+			result += pq_check.top().second;
+			pq_check.pop();
 
-		while (idx < N && v[idx].first <= now_cap) {
-			pq.push(v[idx].second); 
-			idx++;
 		}
-		if (!pq.empty()) {
-			result += pq.top();
-			pq.pop();
-		}
+
 	}
-	cout << result << '\n';
+	cout << result << "\n";
 }
-
 int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
