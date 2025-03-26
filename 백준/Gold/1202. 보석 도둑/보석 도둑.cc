@@ -5,23 +5,9 @@
 using namespace std;
 
 int N, K;
-int bag[300001];
 typedef pair<int, int> p;
-struct compare {
-	bool operator()(const p& a, const p& b) {
-		return a.first > b.first;
-	}
-};
-struct compare2 {
-	bool operator()(const p& a, const p& b) {
-		return a.second < b.second;
-	}
-};
-bool c(const vector<int>& a, const vector<int>& b) {
-	return a < b;
-}
-priority_queue<p, vector<p>, compare> pq_p;
-priority_queue<p, vector<p>, compare2> pq_check;
+priority_queue<p, vector<p>, greater<p>> pq_p;
+priority_queue<int> pq_check;
 vector<int> v;
 
 void input() {
@@ -47,14 +33,14 @@ void func() {
 			weight = pq_p.top().first;
 			value = pq_p.top().second;
 			if (a >= weight) {
-				pq_check.push({ weight,value });
+				pq_check.push(value);
 				pq_p.pop();
 			}
 			else
 				break;
 		}
 		if (!pq_check.empty()) {
-			result += pq_check.top().second;
+			result += pq_check.top();
 			pq_check.pop();
 		}
 	}
