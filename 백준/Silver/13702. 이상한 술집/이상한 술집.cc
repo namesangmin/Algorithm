@@ -19,10 +19,7 @@
 		long long ans = 0;
 		long long left = 0;
 		long long right = inputSum;
-		// 0 일 때 예외처리?
-		// 1 일 때에도 예외처리?
-		// 예외가 있는데
-		//if (inputSum - k < 0)return 0;
+
 		while (left <= right) {
 			long long mid = (left + right) / 2 + 1;
 
@@ -39,7 +36,6 @@
 				right = mid - 2;
 			} 
 		}
-
 		return ans;
 	}
 	int main() {
