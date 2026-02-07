@@ -43,7 +43,8 @@ int main()
         {
             int cur_line_left_val = 0, prev_line_left_val = 0, prev_line_val = 0;
             
-            if(j - 1 >= 0){
+            if(j - 1 >= 0)
+            {
                 cur_line_left_val = dp[j - 1][idx]; // 왼쪽에 있는 거
                 prev_line_left_val = dp[j -1][prev_idx]; // 위, 왼쪽에 있는 거
             } 
@@ -51,7 +52,7 @@ int main()
 
             if(ch[i] == ch2[j])
             {
-                dp[j][idx] = max(cur_line_left_val, prev_line_left_val + 1);
+                dp[j][idx] = prev_line_left_val + 1;
             }
             else // 다르면 왼쪽 위 중에서 가져오기
             {
