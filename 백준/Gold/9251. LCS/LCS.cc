@@ -15,7 +15,7 @@ int main()
     input();
     int ch_Size = ch.size();
     int ch2_Size = ch2.size();
-    int idx = -1, prev_idx = -1;
+    int idx = 1, prev_idx = -1;
     // 같을 때
     // 1. 위 왼쪽 + 1 과 왼쪽 중에서 누가 더 큰가를 봄
     // 위 왼쪽에 있는 값을 가져와야 함
@@ -36,8 +36,8 @@ int main()
     // 배열의 인덱스 [idx = (idx+1) % 2]
     for(int i=0; i< ch_Size; i++)
     {
-        idx = (idx + 1) % 2;
-        prev_idx = idx == 1 ? 0 : 1;
+        idx ^= 1;
+        prev_idx = idx  ^ 1;
 
         for(int j = 0; j <ch2_Size; j++)
         {
