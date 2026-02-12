@@ -6,7 +6,6 @@ using namespace std;
 
 vector<vector<int>> v;
 vector<int> flag;
-vector<bool> visited;
 int K, V, E;
 bool func();
 void input()
@@ -17,7 +16,6 @@ void input()
     {
         cin >> V >> E;
         v.assign(V + 1, vector<int>());
-        visited.assign(V + 1, false);
         flag.assign(V + 1, -1);
         for (int i = 1; i <= E; i++)
         {
@@ -33,11 +31,10 @@ bool func()
 {
     for (int i = 1; i <= V; i++)
     {
-        if (visited[i]) continue;
+        if (flag[i] != -1) continue;
 
         queue<int> q;
         q.push(i);
-        visited[i] = true;
         flag[i] = 1; 
 
         while (!q.empty())
@@ -48,14 +45,13 @@ bool func()
             for (int j = 0; j < v[cNode].size(); j++)
             {
                 int n = v[cNode][j];
-                if (visited[n] && flag[cNode] == flag[n]) {
+                if (flag[cNode] == flag[n]) {
                     return false;
                 }
 
-                if (visited[n]) continue;
+                if (flag[n] != -1) continue;
 
                 q.push(n);
-                visited[n] = true;
                 flag[n] = flag[cNode] ^ 1; 
             }
         }
@@ -65,6 +61,8 @@ bool func()
 
 int main()
 {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
     input();
     return 0;
 }
