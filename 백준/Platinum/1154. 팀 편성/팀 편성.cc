@@ -4,13 +4,13 @@
 using namespace std;
 
 int N;
-vector<vector<int>> v;
+vector<vector<bool>> v;
 vector<int> m;
 queue<int> q;
 void input() {
 	int a, b;
 	cin >> N;
-	v.resize(N + 1, vector<int>(N + 1, 0));
+	v.resize(N + 1, vector<bool>(N + 1, 0));
 	m.resize(N + 1, -1);
 	for (;;) {
 		cin >> a >> b;
@@ -20,8 +20,8 @@ void input() {
 	}
 }
 bool bfs(int node) {
-	while (!q.empty())q.pop();
-	q.push(node);
+    q = queue<int>();
+    q.push(node);
 	m[node] = 1;
 
 	while (!q.empty()){
@@ -78,6 +78,8 @@ void func() {
 
 }
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
 	input();
 	func();
 }
