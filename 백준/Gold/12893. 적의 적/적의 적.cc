@@ -6,7 +6,6 @@ using namespace std;
 int N, M;
 vector<vector<int>> v;
 vector<int> m;
-queue<int>q;
 void input() 
 {
 	int a, b;
@@ -22,7 +21,7 @@ void input()
 }
 bool bfs(int node)
 {
-	q = queue<int>();
+	queue<int>q;
 	q.push(node);
 	while (!q.empty()) {
 		int cNode = q.front();
