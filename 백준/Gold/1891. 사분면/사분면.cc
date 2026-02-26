@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cmath>
 #include <string>
 using namespace std;
 
@@ -9,10 +8,10 @@ long long x, y, tX, tY, tmD;
 
 void input() {
 	cin >> d >> m >> x >> y;
-	tmD = pow(2, d);
+	tmD = 1LL << d;
 }
 
-void func(long long Size, long long cX, long long cY, string cStr, int idx) {
+void func(long long Size, long long cX, long long cY, string& cStr, int idx) {
 	if (Size <= 1) {
 		if (cStr == m) {
 			tX = cX;
@@ -45,7 +44,7 @@ bool moveXY() {
 	if (tX <= 0 || tX > tmD || tY <= 0 || tY > tmD) return false;
 	return true;
 }
-void moveTarget(long long Size, long long cX, long long cY, string cStr, int idx, char ch) {
+void moveTarget(long long Size, long long cX, long long cY, string& cStr, int idx, char ch) {
 	if (Size <= 1) {
 		if (cX == tX && cY == tY) {
 			cStr += ch;
@@ -74,11 +73,13 @@ int main() {
 	input();
 	
 	// 1. 해당 위치의 좌표를 구하고
-	func(tmD, tmD, tmD, "", 0);
+	string p1 = "";
+	func(tmD, tmD, tmD, p1, 0);
 	// 2. 이동 -> x, y
 	if (moveXY()) {
 		// 3. 다시 그 좌표를 찾음
-		moveTarget(tmD, tmD, tmD, "", 0, '0');
+		string p2 = "";
+		moveTarget(tmD, tmD, tmD, p2, 0, '0');
 		cout << ans << "\n";
 	}
 	else cout << "-1\n";
