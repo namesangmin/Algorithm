@@ -59,6 +59,8 @@ void func() {
     }
 }
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
     input();
     func();
     return 0;
