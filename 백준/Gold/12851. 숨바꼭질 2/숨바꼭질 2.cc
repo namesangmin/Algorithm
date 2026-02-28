@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#define MAX 1000001
+#define MAX 100001
 using namespace std;
 
 int N, K;
@@ -43,7 +43,7 @@ void func() {
 			int nextN = tmNode[i];
 			int nextT = cTime + 1;
 			if (nextN < 0 || nextN > MAX) continue;
-			if (isT && nextT > Time) continue;
+			if (isT && nextT > Time) break;
 			if (timeList[nextN] < nextT) continue;
 			timeList[nextN] = nextT;
 			q.push({ nextN, nextT });
