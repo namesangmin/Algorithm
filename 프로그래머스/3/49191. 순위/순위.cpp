@@ -1,62 +1,52 @@
 #include <string>
 #include <vector>
-#include <queue>
-#include <iostream>
-using namespace std;
-vector<int> check, re_check;
-vector<vector<int>> win, lose;
+#include <unordered_map>
+#include <unordered_set>
+#include <functional>
 
-void func(const int& cNode, const vector<vector<int>>& v, const int& n, vector<int>& memo){
-    queue<int> q;
-    vector<bool> visited;
-    visited.resize(n+1, false);
-    visited[cNode] = true;
-    q.push(cNode);
-    int tm = 0;
-    
-    while(!q.empty()){
-        int cN = q.front();
-        q.pop();
-        
-        for(int i=0; i< v[cN].size(); i++){
-            int nNode = v[cN][i];
-            if(!visited[nNode]){
-                visited[nNode] = true;
-                q.push(nNode);
-                tm++;
-            }
-        }        
-    }
-    
-    memo[cNode] = tm;
-}
+using namespace std;
 
 int solution(int n, vector<vector<int>> results) {
     int answer = 0;
-    win.resize(n+1);
-    lose.resize(n+1);
 
-    check.resize(n+1,0);
-    re_check.resize(n+1,0);
-    
-    for(int i=0; i< results.size(); i++){
-        int a = results[i][0];
-        int b = results[i][1];
-        win[a].push_back(b);
-        lose[b].push_back(a);
+    std::unordered_map<int, std::vector<int>> win, defeat;
+    for (const auto& ele : results)
+    {
+        win[ele[0]].push_back(ele[1]);
+        defeat[ele[1]].push_back(ele[0]);
     }
-    
-    for(int i=1; i<=n; i++){
-        func(i, win, n, check);
-        func(i, lose, n, re_check);
+
+    std::vector<std::unordered_set<int>> counts(n + 1);
+    std::function<void(int, int, std::unordered_map<int, std::vector<int>>&)> dfs = [&](int target, int num, std::unordered_map<int, std::vector<int>>& graph) {
+
+        if (target != num)
+        {
+            if (counts[target].end() != counts[target].find(num))
+            {
+                return;
+            }
+            counts[target].insert(num);
+        }
+
+        for (const auto& ele : graph[target])
+        {
+            dfs(ele, num, graph);
+        }
+    };
+
+    for (int i = 1; i <= n; ++i)
+    {
+        dfs(i, i, win);
+        dfs(i, i, defeat);
     }
-    
-    for(int i=1; i<=n; i++){
-        //cout << check[i] << " " << re_check[i] << "\n";
-        if(re_check[i] + check[i] == n - 1){
+
+    for (int i = 1; i < counts.size(); ++i)
+    {
+        if (counts[i].size() == n - 1)
+        {
             answer++;
         }
     }
-    
+
     return answer;
 }
