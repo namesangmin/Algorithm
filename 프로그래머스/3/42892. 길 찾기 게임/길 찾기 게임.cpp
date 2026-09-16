@@ -1,113 +1,45 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <iostream>
-
+#include <algorithm>
 using namespace std;
 
-typedef struct node{
-    int x,y;
-    int node;
-}node;
+vector<vector<int>> answer(2);
 
-typedef struct info{
-    int x,y;
-    int left, right;
-}info;
-
-vector<node> arr;
-vector<info> T;
-
-bool cmp(const node& a, const node& b){
-    if(a.y > b.y){
-        return true;        
-    }
-    else if(a.y == b.y && a.x < b.x){
-        return true;
-    }
-    return false;
-}
-
-void func(int cNode, int cx , int cy, int rNode){
-    
-    if(cx < T[rNode].x){
-        if(T[rNode].left == -1) {
-            T[rNode].left = cNode;
+void makeAnswer(vector<vector<int>> nodeinfo){
+    if(nodeinfo.empty()) return;
+    int root;
+    int idx = 0;
+    int my = -1;
+    for(int i=0; i<nodeinfo.size(); ++i){
+        if(my < nodeinfo[i][1]){
+            my = nodeinfo[i][1];
+            root = nodeinfo[i][2];
+            idx = i;
         }
-        else{
-            func(cNode, cx, cy, T[rNode].left);
-        }    
     }
-    else{
-        if(T[rNode].right == -1) 
-            T[rNode].right = cNode;
-        else{
-            func(cNode, cx, cy, T[rNode].right);
-        }    
-    }
-}
-void preorder(int cNode, vector<int>& tmV){
-    
-    tmV.push_back(cNode);
-    if(T[cNode].left != -1)
-        preorder(T[cNode].left, tmV);
-    if(T[cNode].right != -1)
-        preorder(T[cNode].right, tmV);
-    
-}
-void postorder(int cNode, vector<int>& tmV){
 
-    if(T[cNode].left != -1)
-        postorder(T[cNode].left, tmV);
-    if(T[cNode].right != -1)
-        postorder(T[cNode].right, tmV);
-    
-    // cout << cNode << " ";
-    tmV.push_back(cNode);   
+    answer[0].push_back(root);
+    vector<vector<int>> left(nodeinfo.begin(), nodeinfo.begin()+idx);
+    vector<vector<int>> right(nodeinfo.begin()+idx+1, nodeinfo.end());
+    makeAnswer(left);
+    makeAnswer(right);
+    answer[1].push_back(root);
+
+    return;
+}
+
+bool cmp(vector<int> a, vector<int> b){
+    return a[0]<b[0]; // x기준 오름차순 정렬 (모든 x는 다른값)
 }
 
 vector<vector<int>> solution(vector<vector<int>> nodeinfo) {
-    vector<vector<int>> answer;
-    int nSize = nodeinfo.size();
-    
-    for(int i=0; i<nSize; i++){
-        arr.push_back({nodeinfo[i][0], nodeinfo[i][1], i + 1});
+    for(int i=0; i<nodeinfo.size(); ++i){
+        nodeinfo[i].push_back(i+1); // [2]에 노드번호 삽입
     }
-    
-    sort(arr.begin(),  arr.end(), cmp);
+    sort(nodeinfo.begin(), nodeinfo.end(), cmp);
 
-    // for(int i=0; i<nSize; i++){
-    //     cout << arr[i].node << " : " << arr[i].x << " " << arr[i].y << "\n";
-    // }
-    
-    T.resize(nSize + 1, {-1,-1,-1,-1});
+    makeAnswer(nodeinfo);
 
-    for(int i=0; i<nSize; i++){
-        T[arr[i].node].x = arr[i].x;
-        T[arr[i].node].y = arr[i].y;
-    }
-    
-    int rootNode = arr[0].node;
-
-    
-    // for(int i=0; i< T.size(); i++){
-    //     cout << T[i].x << " " << T[i].y << " " << T[i].left << " " << T[i].right << "\n";
-    // }
-    
-    for(int i=1; i< nSize; i++){
-        func(arr[i].node, arr[i].x, arr[i].y, rootNode);
-    }
-    
-    // for(int i=0; i< T.size(); i++){
-    //     cout << i<< " : " << T[i].left << " " << T[i].right << "\n";
-    // }
-    vector<int> tmV;
-    preorder(rootNode, tmV);
-    answer.push_back(tmV);
-
-    tmV.clear();
-    postorder(rootNode, tmV);
-    answer.push_back(tmV);
-    
     return answer;
 }
