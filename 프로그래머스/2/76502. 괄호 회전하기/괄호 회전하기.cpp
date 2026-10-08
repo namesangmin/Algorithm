@@ -5,7 +5,7 @@
 
 using namespace std;
 
-bool check(string s, int strSize){
+bool check(const string& s, int strSize){
     stack<int> st;
     
     for(int i=0; i<strSize; i++){
@@ -26,11 +26,12 @@ bool check(string s, int strSize){
             }
         }
     }
+    
     if(!st.empty()) return false;
     return true;
 }
 
-string rotateStr(string s, int strSize){
+string rotateStr(const string& s, int strSize){
     string nextStr = s;
     
     for(int i=0; i<strSize; i++){
