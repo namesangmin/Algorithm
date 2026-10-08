@@ -45,7 +45,6 @@ string rotateStr(const string& s, int strSize){
 int solution(string s) {
     int answer = 0;
     int strSize = s.size();
-    int x = strSize;
     
     for(int i=0; i<strSize; i++){
         
